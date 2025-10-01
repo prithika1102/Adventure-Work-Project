@@ -1,0 +1,57 @@
+## JSON Configuration for Source-to-Destination Mapping
+## data_rel_rl → points to the source file location
+## pro_des_folder → specifies the destination folder in Azure Data Lake Gen2
+## pro_des_file → defines the destination file name
+
+[
+    {
+        "data_rel_rl" : "anshlamba03/Adventure-Works-Data-Engineering-Project/main/Data/AdventureWorks_Product_Categories.csv",
+        "pro_des_folder" : "AdventureWorks_Product_Categories",
+        "pro_des_file" : "AdventureWorks_Product_Categories.csv"
+    },
+    {
+        "data_rel_rl" : "anshlamba03/Adventure-Works-Data-Engineering-Project/main/Data/AdventureWorks_Calendar.csv",
+        "pro_des_folder" : "AdventureWorks_Calendar",
+        "pro_des_file" : "AdventureWorks_Calendar.csv"
+    },
+    {
+        "data_rel_rl" : "anshlamba03/Adventure-Works-Data-Engineering-Project/main/Data/AdventureWorks_Customers.csv",
+        "pro_des_folder" : "AdventureWorks_Customers",
+        "pro_des_file" : "AdventureWorks_Customers.csv"
+    },
+    {
+        "data_rel_rl" : "anshlamba03/Adventure-Works-Data-Engineering-Project/main/Data/AdventureWorks_Product_Subcategories.csv",
+        "pro_des_folder" : "Product_Subcategories",
+        "pro_des_file" : "AdventureWorks_Product_Subcategories.csv"
+    },
+    {
+        "data_rel_rl" : "anshlamba03/Adventure-Works-Data-Engineering-Project/main/Data/AdventureWorks_Products.csv",
+        "pro_des_folder" : "AdventureWorks_Products",
+        "pro_des_file" : "AdventureWorks_Products.csv"
+    },
+    {
+        "data_rel_rl" : "anshlamba03/Adventure-Works-Data-Engineering-Project/main/Data/AdventureWorks_Returns.csv",
+        "pro_des_folder" : "AdventureWorks_Returns",
+        "pro_des_file":"AdventureWorks_Returns.csv"
+    },
+    {
+        "data_rel_rl" : "anshlamba03/Adventure-Works-Data-Engineering-Project/main/Data/AdventureWorks_Sales_2015.csv",
+        "pro_des_folder" : "AdventureWorks_Sales_2015",
+        "pro_des_file" : "AdventureWorks_Sales_2015.csv"
+    },
+    {
+        "data_rel_rl" : "anshlamba03/Adventure-Works-Data-Engineering-Project/main/Data/AdventureWorks_Sales_2016.csv",
+        "pro_des_folder" : "AdventureWorks_Sales_2016",
+        "pro_des_file" : "AdventureWorks_Sales_2016.cvsv"
+    },
+    {
+        "data_rel_rl" : "anshlamba03/Adventure-Works-Data-Engineering-Project/main/Data/AdventureWorks_Sales_2017.csv",
+        "pro_des_folder" : "AdventureWorks_Sales_2017",
+        "pro_des_file" : "AdventureWorks_Sales_2017.csv"
+    },
+    {
+        "data_rel_rl" : "anshlamba03/Adventure-Works-Data-Engineering-Project/main/Data/AdventureWorks_Territories.csv",
+        "pro_des_folder" : "AdventureWorks_Territories",
+        "pro_des_file" : "AdventureWorks_Territories.csv"
+    }
+]
