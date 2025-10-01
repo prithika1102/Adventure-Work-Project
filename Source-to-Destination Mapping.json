@@ -1,7 +1,8 @@
-## JSON Configuration for Source-to-Destination Mapping
-## data_rel_rl → points to the source file location
-## pro_des_folder → specifies the destination folder in Azure Data Lake Gen2
-## pro_des_file → defines the destination file name
+--- JSON Configuration for Source-to-Destination Mapping
+
+--- data_rel_rl → points to the source file location
+--- pro_des_folder → specifies the destination folder in Azure Data Lake Gen2
+--- pro_des_file → defines the destination file name
 
 [
     {
@@ -54,4 +55,5 @@
         "pro_des_folder" : "AdventureWorks_Territories",
         "pro_des_file" : "AdventureWorks_Territories.csv"
     }
+
 ]
