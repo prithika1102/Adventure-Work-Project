@@ -3,16 +3,16 @@ Azure_first_data engineering_project
 
 About This Project: 
 
-Passion for data world inspired me to explore the world of data engineering, focusing on building scalable pipelines, transformations, and cloud-based storage solutions.
+Passion for data analysis inspired me to explore data engineering, focusing on building scalable pipelines and cloud-based storage solutions.
 
-This project leverages the well-known AdventureWorks dataset to demonstrate data integration using Azure Data Factory. 
+This project uses the AdventureWorks dataset to demonstrate data integration using Azure Data Factory (ADF). 
 
-It showcases:
+It showcases: 
 
-   🔄 Dynamic pipelines with ForEach activities
+🔄 Dynamic pipelines using ForEach activities
 
-   📜 Parameterization with JSON scripts
+📜 Parameterization with JSON scripts for source-to-destination mapping
 
-   🗄️ Storage in Azure Data Lake Gen2
+🔗 Use of Linked Services to securely connect to data sources and destinations
 
-   ⚙️ Data preparation for further transformations and analytics
+🗄️ Data extraction and loading into Azure Data Lake Gen2
