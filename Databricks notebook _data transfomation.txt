@@ -1,0 +1,182 @@
+# Databricks notebook source
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC # Silver layer script
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### Data access using app
+
+# COMMAND ----------
+
+
+# access data from Data lake using applicaiton creditianls and secret vlaues
+
+# replace storage-account, application id, service credential
+
+spark.conf.set("fs.azure.account.auth.type.<storage-account>.dfs.core.windows.net", "OAuth")
+spark.conf.set("fs.azure.account.oauth.provider.type.<storage-account>.dfs.core.windows.net", "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider")
+spark.conf.set("fs.azure.account.oauth2.client.id.<storage-account>.dfs.core.windows.net", "<application-id>")
+spark.conf.set("fs.azure.account.oauth2.client.secret.<storage-account>.dfs.core.windows.net", service_credential)
+spark.conf.set("fs.azure.account.oauth2.client.endpoint.<storage-account>.dfs.core.windows.net", "https://login.microsoftonline.com/<directory-id>/oauth2/token")
+
+# COMMAND ----------
+
+# MAGIC %md 
+# MAGIC
+# MAGIC ### Data Loading 
+
+# COMMAND ----------
+
+df_Calendar = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@awstoragepri.dfs.core.windows.net/AdventureWorks_Calendar")
+
+# COMMAND ----------
+
+df_Customers = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@awstoragepri.dfs.core.windows.net/AdventureWorks_Customers")
+
+# COMMAND ----------
+
+df_Product_Categories = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@awstoragepri.dfs.core.windows.net/AdventureWorks_Product_Categories")
+
+# COMMAND ----------
+
+df_Product = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@awstoragepri.dfs.core.windows.net/AdventureWorks_Products")
+
+# COMMAND ----------
+
+df_Returns = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@awstoragepri.dfs.core.windows.net/AdventureWorks_Returns")
+
+# COMMAND ----------
+
+df_sales = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@awstoragepri.dfs.core.windows.net/AdventureWorks_Sales*")
+
+# COMMAND ----------
+
+df_Territories = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@awstoragepri.dfs.core.windows.net/AdventureWorks_Territories")
+
+# COMMAND ----------
+
+df_Pro_sub = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@awstoragepri.dfs.core.windows.net/Product_Subcategories")
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### Transformation
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### Calendar data transformation
+
+# COMMAND ----------
+
+df_Calendar = df_Calendar.withColumn('Year',year(col('Date')))\
+                         .withColumn("Day_Name", date_format(col("Date"), "EEEE")) \
+                         .withColumn("Month_Name", date_format(col("Date"), "MMMM"))\
+                         .withColumn("Start_of_Week_Date", trunc(col("Date"),"week"))
+                              
+                         #withColumn('Month',month(col('Date')))\ 
+                         #.drop("Month")
+
+                         #.withColumn("Start_of_Week_Date", date_trunc("week", col("Date")))
+                         #.withColumn("Start_of_Week_Name", date_format(col("Start_of_Week_Date"), "EEEE"))\
+                         #.drop("Start_of_Week_Name")
+                         
+                         #.withColumn("Start_of_Month", trunc(col('Date'), 'Month')) \
+                         # .drop("Start_of_Month") 
+                         
+                                
+df_Calendar.display()
+
+df_Calendar.write.format("parquet").mode("append").option("path","abfss://silver@awstoragepri.dfs.core.windows.net/AdventureWorks_Calendar").save()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### Customer data transformation
+
+# COMMAND ----------
+
+df_Customers = df_Customers.withColumn('FullName',concat_ws(' ',col('Prefix'),col('FirstName'),col('LastName')))\
+            .withColumn('Domain', split(col('EmailAddress'), "@")[1])
+
+df_Customers.display()
+
+df_Customers.write.format('parquet').mode('append').option("path","abfss://silver@awstoragepri.dfs.core.windows.net/AdventureWorks_Customers").save()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### Product sub category data transformation
+
+# COMMAND ----------
+
+df_Pro_sub.display()
+
+df_Pro_sub.write.format('parquet').mode('append').option("path","abfss://silver@awstoragepri.dfs.core.windows.net/AdventureWorks_Product_Sub").save()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### Prodcut data transformation
+
+# COMMAND ----------
+
+df_Product.display()
+
+
+df_Product = df_Product.withColumn('ProductSKU',split(col('ProductSKU'),'-')[0])\
+          .withColumn('ProductName',split(col('ProductName'),' ')[0])
+
+df_Product.write.format('parquet').mode('append').option('path','abfss://silver@awstoragepri.dfs.core.windows.net/AdventureWorks_Product').save()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### Product categories data transformation
+
+# COMMAND ----------
+
+df_Product_Categories.display()
+
+df_Product_Categories.write.format('parquet').mode('append').option("path","abfss://silver@awstoragepri.dfs.core.windows.net/AdventureWorks_Prodcut_Categories").save()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### Return data transformation
+
+# COMMAND ----------
+
+df_Returns.display()
+
+df_Returns.write.format('parquet').mode('append').option("path","abfss://silver@awstoragepri.dfs.core.windows.net/AdventureWorks_Returns").save()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ####Territories data transformation
+
+# COMMAND ----------
+
+df_Territories.write.format('parquet').mode('append').option("path","abfss://silver@awstoragepri.dfs.core.windows.net/AdventureWorks_Territories").save()
+
+# COMMAND ----------
+
+df_sales = df_sales.withColumn('StockDate',to_timestamp('StockDate'))
+
+df_sales = df_sales.withColumn('OrderNumber',regexp_replace('OrderNumber','S','T'))
+
+df_sales = df_sales.withColumn('Item Multiply',col('OrderLineItem')*col('OrderQuantity'))
+
+df_sales.display()
+
+df_sales.write.format('parquet').mode('append').option("path","abfss://silver@awstoragepri.dfs.core.windows.net/AdventureWorks_Sales").save()
+
+
+
