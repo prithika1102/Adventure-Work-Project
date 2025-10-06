@@ -33,35 +33,35 @@ spark.conf.set("fs.azure.account.oauth2.client.endpoint.<storage-account>.dfs.co
 
 # COMMAND ----------
 
-df_Calendar = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@awstoragepri.dfs.core.windows.net/AdventureWorks_Calendar")
+df_Calendar = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@<storage-account>.dfs.core.windows.net/AdventureWorks_Calendar")
 
 # COMMAND ----------
 
-df_Customers = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@awstoragepri.dfs.core.windows.net/AdventureWorks_Customers")
+df_Customers = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@<storage-account>.dfs.core.windows.net/AdventureWorks_Customers")
 
 # COMMAND ----------
 
-df_Product_Categories = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@awstoragepri.dfs.core.windows.net/AdventureWorks_Product_Categories")
+df_Product_Categories = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@<storage-account>.dfs.core.windows.net/AdventureWorks_Product_Categories")
 
 # COMMAND ----------
 
-df_Product = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@awstoragepri.dfs.core.windows.net/AdventureWorks_Products")
+df_Product = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@<storage-account>.dfs.core.windows.net/AdventureWorks_Products")
 
 # COMMAND ----------
 
-df_Returns = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@awstoragepri.dfs.core.windows.net/AdventureWorks_Returns")
+df_Returns = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@<storage-account>.dfs.core.windows.net/AdventureWorks_Returns")
 
 # COMMAND ----------
 
-df_sales = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@awstoragepri.dfs.core.windows.net/AdventureWorks_Sales*")
+df_sales = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@<storage-account>.dfs.core.windows.net/AdventureWorks_Sales*")
 
 # COMMAND ----------
 
-df_Territories = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@awstoragepri.dfs.core.windows.net/AdventureWorks_Territories")
+df_Territories = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@<storage-account>.dfs.core.windows.net/AdventureWorks_Territories")
 
 # COMMAND ----------
 
-df_Pro_sub = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@awstoragepri.dfs.core.windows.net/Product_Subcategories")
+df_Pro_sub = spark.read.format('csv').option("header", True).option("inferSchema", True).load("abfss://bronze@<storage-account>.dfs.core.windows.net/Product_Subcategories")
 
 # COMMAND ----------
 
@@ -93,7 +93,7 @@ df_Calendar = df_Calendar.withColumn('Year',year(col('Date')))\
                                 
 df_Calendar.display()
 
-df_Calendar.write.format("parquet").mode("append").option("path","abfss://silver@awstoragepri.dfs.core.windows.net/AdventureWorks_Calendar").save()
+df_Calendar.write.format("parquet").mode("append").option("path","abfss://silver@<storage-account>.dfs.core.windows.net/AdventureWorks_Calendar").save()
 
 # COMMAND ----------
 
@@ -107,7 +107,7 @@ df_Customers = df_Customers.withColumn('FullName',concat_ws(' ',col('Prefix'),co
 
 df_Customers.display()
 
-df_Customers.write.format('parquet').mode('append').option("path","abfss://silver@awstoragepri.dfs.core.windows.net/AdventureWorks_Customers").save()
+df_Customers.write.format('parquet').mode('append').option("path","abfss://silver@<storage-account>.dfs.core.windows.net/AdventureWorks_Customers").save()
 
 # COMMAND ----------
 
@@ -118,7 +118,7 @@ df_Customers.write.format('parquet').mode('append').option("path","abfss://silve
 
 df_Pro_sub.display()
 
-df_Pro_sub.write.format('parquet').mode('append').option("path","abfss://silver@awstoragepri.dfs.core.windows.net/AdventureWorks_Product_Sub").save()
+df_Pro_sub.write.format('parquet').mode('append').option("path","abfss://silver@<storage-account>.dfs.core.windows.net/AdventureWorks_Product_Sub").save()
 
 # COMMAND ----------
 
@@ -133,7 +133,7 @@ df_Product.display()
 df_Product = df_Product.withColumn('ProductSKU',split(col('ProductSKU'),'-')[0])\
           .withColumn('ProductName',split(col('ProductName'),' ')[0])
 
-df_Product.write.format('parquet').mode('append').option('path','abfss://silver@awstoragepri.dfs.core.windows.net/AdventureWorks_Product').save()
+df_Product.write.format('parquet').mode('append').option('path','abfss://silver@<storage-account>.dfs.core.windows.net/AdventureWorks_Product').save()
 
 # COMMAND ----------
 
@@ -144,7 +144,7 @@ df_Product.write.format('parquet').mode('append').option('path','abfss://silver@
 
 df_Product_Categories.display()
 
-df_Product_Categories.write.format('parquet').mode('append').option("path","abfss://silver@awstoragepri.dfs.core.windows.net/AdventureWorks_Prodcut_Categories").save()
+df_Product_Categories.write.format('parquet').mode('append').option("path","abfss://silver@<storage-account>.dfs.core.windows.net/AdventureWorks_Prodcut_Categories").save()
 
 # COMMAND ----------
 
@@ -155,7 +155,7 @@ df_Product_Categories.write.format('parquet').mode('append').option("path","abfs
 
 df_Returns.display()
 
-df_Returns.write.format('parquet').mode('append').option("path","abfss://silver@awstoragepri.dfs.core.windows.net/AdventureWorks_Returns").save()
+df_Returns.write.format('parquet').mode('append').option("path","abfss://silver@<storage-account>.dfs.core.windows.net/AdventureWorks_Returns").save()
 
 # COMMAND ----------
 
@@ -164,7 +164,7 @@ df_Returns.write.format('parquet').mode('append').option("path","abfss://silver@
 
 # COMMAND ----------
 
-df_Territories.write.format('parquet').mode('append').option("path","abfss://silver@awstoragepri.dfs.core.windows.net/AdventureWorks_Territories").save()
+df_Territories.write.format('parquet').mode('append').option("path","abfss://silver@<storage-account>.dfs.core.windows.net/AdventureWorks_Territories").save()
 
 # COMMAND ----------
 
@@ -176,7 +176,8 @@ df_sales = df_sales.withColumn('Item Multiply',col('OrderLineItem')*col('OrderQu
 
 df_sales.display()
 
-df_sales.write.format('parquet').mode('append').option("path","abfss://silver@awstoragepri.dfs.core.windows.net/AdventureWorks_Sales").save()
+df_sales.write.format('parquet').mode('append').option("path","abfss://silver@<storage-account>.dfs.core.windows.net/AdventureWorks_Sales").save()
+
 
 
 
