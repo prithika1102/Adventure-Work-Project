@@ -26,3 +26,7 @@ This project uses the AdventureWorks dataset to demonstrate data integration usi
     o Cleaned and formatted product and sales data
 
     o Stored transformed datasets into Silver layer in Parquet format
+
+💾 External table data storing in Azue synapse analytics for further analytical process and visualization using Power BI.
+
+   
